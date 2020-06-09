@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.*;
 
 public class WarPixClient extends JFrame{
-    private static DatagramSocket sendSocket;
+	private static final long serialVersionUID = 1L; // ХЗ что это, но избавился от предупреждения
+	
+	private static DatagramSocket sendSocket;
     private static DatagramPacket sendPacket;
     private static DatagramSocket listenSocket;
     private static DatagramPacket listenPacket;
@@ -35,7 +37,6 @@ public class WarPixClient extends JFrame{
         jFrameInit();
         add(jPanel);
         setVisible(true);
-
     }
 
     public static void jPanelInit(JPanel jPanel){
@@ -49,10 +50,22 @@ public class WarPixClient extends JFrame{
         sendSocket = new DatagramSocket();
         byte[] bytes = new byte[1];
         bytes[0] = 1;
-        sendPacket = new DatagramPacket(bytes, 1);
-        sendPacket.setAddress(InetAddress.getByName("37.192.213.120"));
-        sendPacket.setPort(60000);
+        sendPacket = new DatagramPacket(bytes, 1, InetAddress.getByName("37.192.213.120"), 60000);
         sendSocket.send(sendPacket);
+    }
+    
+    @Override
+    public void dispose() {
+    	listenSocket.close();
+    	try {
+			sendPacket = new DatagramPacket(new byte[1], 1, InetAddress.getByName("37.192.213.120"), 60000);
+			sendSocket.send(sendPacket);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+    	sendSocket.close();
+    	super.dispose();
+    	System.exit(0);
     }
 }
 
