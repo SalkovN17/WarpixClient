@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Rect {
     private byte colorByte;
-    Rectangle rectangle;
+    private Rectangle rectangle;
 
     Rect(int x, int y, byte colorByte){
         rectangle = new Rectangle(x,y,30,30);
@@ -15,11 +15,8 @@ public class Rect {
         return colorByte;
     }
 
-    public void setColorByte(byte colorByte) {
-        this.colorByte = colorByte;
-    }
-
     public Rectangle getRectangle() {
         return rectangle;
     }
+
 }
